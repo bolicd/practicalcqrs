@@ -1,0 +1,60 @@
+﻿using Core.Person.DomainEvents;
+using System.Collections.Generic;
+using Tactical.DDD;
+
+namespace Core.Person
+{
+    public class Person: Tactical.DDD.EventSourcing.AggregateRoot<PersonId>
+    {
+        public override PersonId Id { get; protected set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public Address PersonAddress { get; private set; }
+
+        public Person(IEnumerable<IDomainEvent> events) : base(events)
+        {
+        }
+
+        private Person()
+        {
+            
+        }
+
+        public static Person CreateNewPerson(
+            PersonId personId,
+            string firstName,
+            string lastName)
+        {
+
+            var person = new Person();
+
+            person.Apply(new PersonCreated(personId.ToString(),
+                firstName, lastName));
+
+            return person;
+        }
+
+        public void ChangePersonAddress(string street,string country, string zipCode, string city)
+        {
+            Apply(new AddressChanged(Id.ToString(), city,country, zipCode, street));
+        }
+
+        public void On(PersonCreated @event)
+        {
+            Id = new PersonId(@event.AggregateId);
+            FirstName = @event.FirstName;
+            LastName = @event.LastName;
+        }
+
+        public void On(AddressChanged @event)
+        {
+            PersonAddress = new Address
+            {
+                City = @event.City,
+                Country = @event.Country,
+                Street = @event.Street,
+                ZipCode = @event.ZipCode
+            };
+        }
+    }
+}
