@@ -9,7 +9,7 @@ using Infrastructure.Repositories;
 
 namespace Projections
 {
-    public abstract class ProjectionRepository: IProjectionRepository
+    public abstract class ProjectionRepository: GenericRepository, IProjectionRepository
     {
         private readonly string _table;
         private readonly ISqlConnectionFactory _connectionFactory;
@@ -17,7 +17,7 @@ namespace Projections
 
         public ProjectionRepository(ISqlConnectionFactory connectionFactory,
             IEventStore eventStoreRepository,
-            string table)
+            string table) : base(connectionFactory,table)
         {
             _connectionFactory = connectionFactory;
             _eventStoreRepository = eventStoreRepository;
@@ -35,7 +35,6 @@ namespace Projections
             await using var connection = _connectionFactory.SqlConnection();
 
             var sequence = await connection.QuerySingleOrDefaultAsync<int?>(query);
-
 
             return sequence ?? default;
         }

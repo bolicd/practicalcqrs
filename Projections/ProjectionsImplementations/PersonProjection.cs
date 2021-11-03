@@ -1,18 +1,38 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Core.Person.DomainEvents;
+using Infrastructure.Model.ReadModels;
+using Infrastructure.Repositories;
 
 namespace Projections.ProjectionsImplementations
 {
     public class PersonProjection : Projection
     {
-        public PersonProjection(IProjectionRepository projectionRepository) : base(projectionRepository)
+        private readonly IPersonReadModelRepository _personReadModelRepository;
+        public PersonProjection(IPersonReadModelRepository personReadModelRepository) : base((IProjectionRepository)personReadModelRepository)
         {
+            _personReadModelRepository = personReadModelRepository;
         }
 
         public async Task On(PersonCreated @event)
         {
-            Console.WriteLine("Person Created");
+            try
+            {
+                await _personReadModelRepository.SavePerson(new PersonReadModel()
+                {
+                    EventId = @event.Id.ToString(),
+                    FirstName = @event.FirstName,
+                    LastName = @event.LastName,
+                    Sequence = @event.Sequence,
+                    UpdatedAt = @event.CreatedAt,
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+           
         }
     }
 }

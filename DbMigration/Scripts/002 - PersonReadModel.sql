@@ -1,6 +1,6 @@
 ﻿BEGIN TRANSACTION
 CREATE TABLE [dbo].[PersonReadModel](
-    [Id] [uniqueidentifier] NOT NULL,
+    [Id] [int] NOT NULL IDENTITY ,
     [FirstName] [nvarchar] (128) NULL,
 	[LastName] [nvarchar] (128) NULL,
     [Street] [nvarchar] (255) NULL,
