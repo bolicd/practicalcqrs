@@ -17,20 +17,17 @@ namespace ProjectionsHost
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
             Console.WriteLine("Worker started");
 
             try
             {
-                //Log.Information("Starting projection agent");
-
                 foreach (var projection in _projections)
                 {
                     await projection.InitializeSequence().ConfigureAwait(false);
 
+                    // This would be a good place to log
                     var sequenceInfo = $"Projection {projection} Sequence {((Projection)projection).Sequence}";
                     Console.WriteLine(sequenceInfo);
-                    //Log.Information(sequenceInfo);
                 }
 
                 while (!stoppingToken.IsCancellationRequested)
@@ -45,13 +42,10 @@ namespace ProjectionsHost
             }
             catch (Exception e)
             {
-                //Log.Fatal(e, $"Something went wrong in the projections. Error: {e.Message} Exception data: {e.Data} InnerException: {e.InnerException} Stacktrace {e.StackTrace}");
+                // this would be a good place to log exception, send notification to slack, email since problem with
+                // projection usually stops projection agent and should be restarted/fixed asap
+                Console.WriteLine($"ex {e}");
                 throw;
-            }
-            finally
-            {
-                //Log.Information("Shutting down projection agent");
-                //Log.CloseAndFlush();
             }
         }
     }

@@ -14,7 +14,7 @@ namespace ProjectionsHost
 
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World");
+            Console.WriteLine("Projection Host starting ...");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -23,8 +23,10 @@ namespace ProjectionsHost
             {
                 services.AddScoped<ISqlConnectionFactory>(x=>new SqlConnectionFactory("Server=(localdb)\\mssqllocaldb;Database=EventStoreDatabase;Trusted_Connection=True;"));
                 services.AddScoped<IEventStore,EventStoreRepository>();
-                services.AddScoped<IProjectionRepository, PersonProjectionRepository>();
+                //TODO: check this
+                services.AddScoped<IProjectionRepository, PersonReadModelRepository>();
                 services.AddScoped<IProjection, PersonProjection>();
+                services.AddScoped<IPersonReadModelRepository,PersonReadModelRepository>();
                 services.AddHostedService<Worker>();
             }).UseSerilog();
 

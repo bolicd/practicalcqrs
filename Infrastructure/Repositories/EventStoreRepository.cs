@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Person.DomainEvents;
 using Tactical.DDD;
 
 namespace Infrastructure.Repositories
@@ -33,7 +34,6 @@ namespace Infrastructure.Repositories
             _connectionFactory = connectionFactory;
         }
 
-
         public async Task<IReadOnlyCollection<IDomainEvent>> LoadAsync(IEntityId aggregateRootId, int offset=0)
         {
             if (aggregateRootId == null) throw new AggregateRootNotProvidedException("AggregateRootId cannot be null");
@@ -53,8 +53,8 @@ namespace Infrastructure.Repositories
         public async Task<IReadOnlyCollection<IDomainEvent>> LoadAsyncFromOffset(int offset, int take)
         {
             var query = new StringBuilder($@"SELECT {EventStoreListOfColumnsSelect} FROM {EventStoreTableName}");
-            query.Append(" WHERE [Sequence] >= @Offset  ");
-            query.Append(" ORDER BY [Version] ASC;");
+            query.Append(" WHERE [Sequence] > @Offset  ");
+            query.Append(" ORDER BY [Sequence] ASC;");
 
             await using var connection = _connectionFactory.SqlConnection();
             var events = (await connection.QueryAsync<EventStoreDao>(query.ToString(), new { Offset = offset })).ToList();
@@ -66,8 +66,8 @@ namespace Infrastructure.Repositories
         private IDomainEvent TransformEvent(EventStoreDao eventSelected)
         {
             var o = JsonConvert.DeserializeObject(eventSelected.Data, _jsonSerializerSettings);
-            var evt = o as IDomainEvent;
-
+            var evt = o as DomainEvent;
+            evt?.WithVersionAndSequence(eventSelected.Version,eventSelected.Sequence);
             return evt;
         }
 

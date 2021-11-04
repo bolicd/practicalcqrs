@@ -10,15 +10,12 @@ namespace RestAPI.Controllers
     [Route("[controller]")]
     public class PersonController : ControllerBase
     {
-
         private readonly PersonService _personService;
-
 
         public PersonController(PersonService personService)
         {
             _personService = personService;
         }
- 
 
         /// <summary>
         /// Creates new person Aggregate using first and last name as parameters

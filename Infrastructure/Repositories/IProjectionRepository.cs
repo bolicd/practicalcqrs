@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Core.Person.DomainEvents;
 
-namespace Projections
+namespace Infrastructure.Repositories
 {
     public interface IProjectionRepository
     {

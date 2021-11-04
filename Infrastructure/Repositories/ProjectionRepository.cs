@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using Core.Person.DomainEvents;
 using Dapper;
 using Infrastructure.Factories;
-using Infrastructure.Repositories;
 
-namespace Projections
+namespace Infrastructure.Repositories
 {
-    public abstract class ProjectionRepository: IProjectionRepository
+    public abstract class ProjectionRepository: GenericRepository, IProjectionRepository
     {
         private readonly string _table;
         private readonly ISqlConnectionFactory _connectionFactory;
@@ -17,7 +16,7 @@ namespace Projections
 
         public ProjectionRepository(ISqlConnectionFactory connectionFactory,
             IEventStore eventStoreRepository,
-            string table)
+            string table) : base(connectionFactory,table)
         {
             _connectionFactory = connectionFactory;
             _eventStoreRepository = eventStoreRepository;
@@ -36,18 +35,14 @@ namespace Projections
 
             var sequence = await connection.QuerySingleOrDefaultAsync<int?>(query);
 
-
             return sequence ?? default;
         }
        
 
         public async Task<IReadOnlyCollection<DomainEvent>> GetFromSequenceAsync(int sequence, int take)
         {
-            //var eventStoreRecords = await _eventStoreRepository
-            //    .GetFromSequenceAsync<DomainEvent>(sequence, take).ConfigureAwait(false);
             var eventStoreRecords = await _eventStoreRepository.LoadAsyncFromOffset(sequence, take);
 
-            //eventStoreRecords.ToList().ForEach(x => x.Event.WithVersionAndSequence(x.Version, x.Sequence));
             return eventStoreRecords.Select(x => x as DomainEvent).ToList().AsReadOnly();
         }
     }
