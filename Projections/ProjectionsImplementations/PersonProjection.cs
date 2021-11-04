@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Core.Person.DomainEvents;
 using Infrastructure.Model.ReadModels;
 using Infrastructure.Repositories;

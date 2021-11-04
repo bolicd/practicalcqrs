@@ -1,7 +1,12 @@
 # Practical CQRS
 
 Small CQRS/ES project created from scratch for demo purposes,
-based on .NET Core 3.1, LocalDb and event store.
+based on .NET Core 3.1, LocalDb, EventStore and TacticalDDD package version 1.26.
+
+TacticalDDD is used only for ValueObject, Entity and AggregateRoot definitions to avoid project
+bloat. 
+
+https://www.nuget.org/packages/TacticalDDD/1.0.26
 
 ## How to start
 
@@ -24,7 +29,9 @@ ProjectionHost will pool event store for changes each second and apply required 
 
 ## Tests
 
-I've tried to include test for each layer.
+I've tried to include test for each layer. 
+
+TODO: Add repository tests
 
 
 

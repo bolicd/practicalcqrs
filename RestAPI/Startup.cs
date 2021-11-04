@@ -23,6 +23,7 @@ namespace RestAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //This should probably be moved boundary
             services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(Configuration.GetConnectionString("EventStoreDatabase")));
             services.AddTransient<IEventStore, EventStoreRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();

@@ -17,7 +17,6 @@ namespace ProjectionsHost
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
             Console.WriteLine("Worker started");
 
             try
