@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Core.Events;
 using Tactical.DDD;
 
 namespace Infrastructure.Repositories
