@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="TacticalDDD" Version="1.0.26" />
   </ItemGroup>
 
 </Project>

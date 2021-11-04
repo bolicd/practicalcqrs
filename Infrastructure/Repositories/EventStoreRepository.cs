@@ -34,7 +34,6 @@ namespace Infrastructure.Repositories
             _connectionFactory = connectionFactory;
         }
 
-
         public async Task<IReadOnlyCollection<IDomainEvent>> LoadAsync(IEntityId aggregateRootId, int offset=0)
         {
             if (aggregateRootId == null) throw new AggregateRootNotProvidedException("AggregateRootId cannot be null");

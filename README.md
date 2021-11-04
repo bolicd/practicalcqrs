@@ -1,20 +1,30 @@
-# EventStore Example 
+# Practical CQRS
+
+Small CQRS/ES project created from scratch for demo purposes,
+based on .NET Core 3.1, LocalDb and event store.
 
 ## How to start
 
-This project uses .NET Core 3.1, so make sure it is installed.
+First, make sure to run DbMigration project. This should create all relevant databases.
+This is needed only the first time project is run. After that it is no longer required.
 
-Run DbMigration project. This should create tables required. By
-default it uses LocalDB default database.
+After that, 2 project can be run at the same time:
+Hosts/RestAPI
+Hosts/ProjectionHost
 
-Run the project by running RestAPI project. It should navigate to swagger
-by default.
+Once RestAPI is running it will navigate to set IISExpress Route and invoke swagger. 
+
+Swagger is pretty self explanatory, but in short here we can create new person(after person is created,
+ID is returned, use this ID to fetch given person) or we can update persons address.
+
+In both cases event is stored into EventStore and eventually is projected into ReadModel( hence eventual consistency ).
+
+ProjectionHost will pool event store for changes each second and apply required events to project them to readmodel if needed.
+
 
 ## Tests
 
-There are two integration tests included. There was not much point in writing
-more since this is only for demo purposes. Tests are also using in memory db
-with temporary database, created each time test is run, and deleted once tests are
-completed
+I've tried to include test for each layer.
 
-# practicalcqrs
+
+

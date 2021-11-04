@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
         private readonly ISqlConnectionFactory _connectionFactory;
         private readonly string _tableName;
 
-        public GenericRepository(ISqlConnectionFactory connectionFactory,
+        protected GenericRepository(ISqlConnectionFactory connectionFactory,
             string tableName)
         {
             _connectionFactory = connectionFactory;
