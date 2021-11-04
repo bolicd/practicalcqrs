@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Person.DomainEvents;
 using Tactical.DDD;
 
 namespace Infrastructure.Repositories
@@ -66,8 +67,8 @@ namespace Infrastructure.Repositories
         private IDomainEvent TransformEvent(EventStoreDao eventSelected)
         {
             var o = JsonConvert.DeserializeObject(eventSelected.Data, _jsonSerializerSettings);
-            var evt = o as IDomainEvent;
-
+            var evt = o as DomainEvent;
+            evt?.WithVersionAndSequence(eventSelected.Version,eventSelected.Sequence);
             return evt;
         }
 

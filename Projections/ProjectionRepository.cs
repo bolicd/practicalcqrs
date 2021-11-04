@@ -44,7 +44,7 @@ namespace Projections
         {
             //var eventStoreRecords = await _eventStoreRepository
             //    .GetFromSequenceAsync<DomainEvent>(sequence, take).ConfigureAwait(false);
-            var eventStoreRecords = await _eventStoreRepository.LoadAsyncFromOffset(sequence, take);
+            var eventStoreRecords = await _eventStoreRepository.LoadAsyncFromOffset(sequence+1, take);
 
             //eventStoreRecords.ToList().ForEach(x => x.Event.WithVersionAndSequence(x.Version, x.Sequence));
             return eventStoreRecords.Select(x => x as DomainEvent).ToList().AsReadOnly();

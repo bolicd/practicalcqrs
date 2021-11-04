@@ -21,9 +21,10 @@ namespace Projections
             Sequence = await _projectionRepository.GetSequence().ConfigureAwait(false);
         }
 
-        protected async Task UpdateSequence(int sequence)
+        protected  Task UpdateSequence(int sequence)
         {
             Sequence = sequence;
+            return Task.CompletedTask;
         }
 
         public async Task ApplyEvents(int take)

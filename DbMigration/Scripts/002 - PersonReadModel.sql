@@ -9,7 +9,8 @@ CREATE TABLE [dbo].[PersonReadModel](
     [ZipCode] [nvarchar] (50) NULL,
     [UpdatedAt] [datetime] NOT NULL,
 	[Sequence] [int] NOT NULL,
-	[EventId] [nvarchar](128) NOT NULL
+	[EventId] [nvarchar](128) NOT NULL,
+    [AggregateId] [nvarchar](255) NOT NULL
 )
 
 GO

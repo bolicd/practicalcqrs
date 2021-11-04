@@ -45,6 +45,7 @@ namespace ProjectionsHost
             }
             catch (Exception e)
             {
+                Console.WriteLine($"ex {e}");
                 //Log.Fatal(e, $"Something went wrong in the projections. Error: {e.Message} Exception data: {e.Data} InnerException: {e.InnerException} Stacktrace {e.StackTrace}");
                 throw;
             }

@@ -7,6 +7,8 @@ namespace Infrastructure.Repositories
     {
         Task SavePerson(PersonReadModel person);
 
+        Task UpdatePerson(PersonReadModel person);
+
         Task<PersonReadModel> GetPerson(string personId);
     }
 }
