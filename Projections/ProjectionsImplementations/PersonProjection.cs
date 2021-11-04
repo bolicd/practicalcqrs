@@ -26,6 +26,7 @@ namespace Projections.ProjectionsImplementations
                 AggregateId = @event.AggregateId
             });
 
+            await UpdateSequence(@event.Sequence);
         }
 
         public async Task On(AddressChanged @event)

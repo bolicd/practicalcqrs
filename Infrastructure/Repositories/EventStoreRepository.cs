@@ -53,8 +53,8 @@ namespace Infrastructure.Repositories
         public async Task<IReadOnlyCollection<IDomainEvent>> LoadAsyncFromOffset(int offset, int take)
         {
             var query = new StringBuilder($@"SELECT {EventStoreListOfColumnsSelect} FROM {EventStoreTableName}");
-            query.Append(" WHERE [Sequence] >= @Offset  ");
-            query.Append(" ORDER BY [Version] ASC;");
+            query.Append(" WHERE [Sequence] > @Offset  ");
+            query.Append(" ORDER BY [Sequence] ASC;");
 
             await using var connection = _connectionFactory.SqlConnection();
             var events = (await connection.QueryAsync<EventStoreDao>(query.ToString(), new { Offset = offset })).ToList();

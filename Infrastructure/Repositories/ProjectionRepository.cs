@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using Core.Person.DomainEvents;
 using Dapper;
 using Infrastructure.Factories;
-using Infrastructure.Repositories;
 
-namespace Projections
+namespace Infrastructure.Repositories
 {
     public abstract class ProjectionRepository: GenericRepository, IProjectionRepository
     {
@@ -42,7 +41,7 @@ namespace Projections
 
         public async Task<IReadOnlyCollection<DomainEvent>> GetFromSequenceAsync(int sequence, int take)
         {
-            var eventStoreRecords = await _eventStoreRepository.LoadAsyncFromOffset(sequence+1, take);
+            var eventStoreRecords = await _eventStoreRepository.LoadAsyncFromOffset(sequence, take);
 
             return eventStoreRecords.Select(x => x as DomainEvent).ToList().AsReadOnly();
         }

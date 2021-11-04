@@ -27,6 +27,7 @@ namespace RestAPI
             services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(Configuration.GetConnectionString("EventStoreDatabase")));
             services.AddTransient<IEventStore, EventStoreRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();
+            services.AddScoped<IPersonReadModelRepository, PersonReadModelRepository>();
             services.AddTransient<PersonService, PersonService>();
             services.AddControllers();
             

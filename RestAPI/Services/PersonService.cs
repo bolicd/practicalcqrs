@@ -3,15 +3,18 @@ using Core.Person;
 using Core.Person.Repositories;
 using RestAPI.Model;
 using System.Threading.Tasks;
+using Infrastructure.Repositories;
 
 namespace RestAPI.Services
 {
     public class PersonService : IPersonService
     {
         private readonly IPersonRepository _personRepository;
-        public PersonService(IPersonRepository personRepository)
+        private readonly IPersonReadModelRepository _personReadModelRepository;
+        public PersonService(IPersonRepository personRepository, IPersonReadModelRepository personReadModelRepository)
         {
             _personRepository = personRepository;
+            _personReadModelRepository = personReadModelRepository;
         }
 
         public async Task<PersonId> CreatePerson(string firstName, string lastName)
@@ -23,22 +26,25 @@ namespace RestAPI.Services
 
         public async Task<PersonDto> GetPerson(string personId)
         {
-            var person = await _personRepository.GetPerson(personId);
+            //var person = await _personRepository.GetPerson(personId);
             
+            //Read person from read model
+            var person = await _personReadModelRepository.GetPerson(personId);
+
             if (person == null) return new PersonDto(); // throw not found exception
 
-            return new PersonDto()
+            return new PersonDto
             {
                 FirstName = person.FirstName,
                 LastName = person.LastName,
                 PersonId = person.Id.ToString(),
-                Address = person.PersonAddress!=null ? new AddressDto()
+                Address = new AddressDto
                 {
-                    City = person.PersonAddress?.City,
-                    Country = person.PersonAddress?.Country,
-                    Street = person.PersonAddress?.Street,
-                    ZipCode = person.PersonAddress?.ZipCode
-                } : null
+                    City = person.City,
+                    Country = person.Country,
+                    Street = person.Street,
+                    ZipCode = person.ZipCode
+                }
             };
         }
 

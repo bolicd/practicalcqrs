@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Projections;
 using Projections.ProjectionsImplementations;
 using Serilog;
-using PersonReadModelRepository = Projections.PersonReadModelRepository;
 
 namespace ProjectionsHost
 {
@@ -24,6 +23,7 @@ namespace ProjectionsHost
             {
                 services.AddScoped<ISqlConnectionFactory>(x=>new SqlConnectionFactory("Server=(localdb)\\mssqllocaldb;Database=EventStoreDatabase;Trusted_Connection=True;"));
                 services.AddScoped<IEventStore,EventStoreRepository>();
+                //TODO: check this
                 services.AddScoped<IProjectionRepository, PersonReadModelRepository>();
                 services.AddScoped<IProjection, PersonProjection>();
                 services.AddScoped<IPersonReadModelRepository,PersonReadModelRepository>();

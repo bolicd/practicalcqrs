@@ -2,9 +2,8 @@
 using Dapper;
 using Infrastructure.Factories;
 using Infrastructure.Model.ReadModels;
-using Infrastructure.Repositories;
 
-namespace Projections
+namespace Infrastructure.Repositories
 {
     public class PersonReadModelRepository : ProjectionRepository,IPersonReadModelRepository
     {

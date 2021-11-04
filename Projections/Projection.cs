@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Core.Person.DomainEvents;
+using Infrastructure.Repositories;
 
 namespace Projections
 {
